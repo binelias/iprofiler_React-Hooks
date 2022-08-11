@@ -7,8 +7,8 @@ import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import './App.css';
-
-
+import Modal from './components/Modal/Modal';
+import Profile from './components/Profile/Profile';
 
 
 // const initialState = {
@@ -33,13 +33,17 @@ import './App.css';
 function App() {
   const [input, setInput] = useState('');
   const [box, setBoxes] = useState([]);
+  const [isLoggedIn, setLogIn] = useState(false);
+  const [isProfileOpen, setProfile] = useState(false);
   const [route, setRoute] = useState('login');
   const [user, setUser] = useState({
     id: '',
     name: '',
     email: '',
     entries: 0,
-    joined: ''
+    joined: '',
+    pet: '',
+    age: ''
   });
   
 
@@ -110,19 +114,27 @@ function App() {
 
   const onRouteChange = (route) => {
     if (route === 'login') {//login page
+      setLogIn(false);
       setInput('');
       setBoxes([]);
-      setRoute(route)
-    } else {
-      setRoute(route);
+    }else if(route === 'home') {
+      setLogIn(true);
     }
+    setRoute(route);
   };
 
+  const toggleModal = () => setProfile((prevState) => !prevState);
+
   return (
-    <div className="App">
+    <div className='App'>
+      <Navigation  isLoggedIn={isLoggedIn} onRouteChange={onRouteChange} toggleModal={toggleModal}/>
+      {isProfileOpen &&
+        <Modal>
+          <Profile isProfileOpen={isProfileOpen} toggleModal={toggleModal} loadUser ={loadUser} user={user}/>
+        </Modal>
+      }
       { route === 'home' 
         ? <div>
-            <Navigation onRouteChange={onRouteChange}/>
             <Logo />
             <Rank 
             name={user.name} 
