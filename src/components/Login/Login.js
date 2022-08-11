@@ -31,9 +31,9 @@ const Login = ({ onRouteChange, loadUser }) => {
         })
     })
       .then(response => response.json())
-      .then(user => {
-          if(user.id) {
-            loadUser(user);
+      .then(data => {
+          if(data.userId) {
+            loadUser(data);
             onRouteChange('home');
           }else {
             alert('Invalid credentials');
