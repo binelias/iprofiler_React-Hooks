@@ -32,7 +32,7 @@ const Login = ({ onRouteChange, loadUser }) => {
     })
       .then(response => response.json())
       .then(data => {
-          if(data.userId) {
+          if(data.id) {
             loadUser(data);
             onRouteChange('home');
           }else {
